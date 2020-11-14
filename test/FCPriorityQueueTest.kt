@@ -1,6 +1,7 @@
 import org.jetbrains.kotlinx.lincheck.*
 import org.jetbrains.kotlinx.lincheck.LoggingLevel.*
 import org.jetbrains.kotlinx.lincheck.annotations.Operation
+import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
 import org.jetbrains.kotlinx.lincheck.strategy.stress.*
 import org.jetbrains.kotlinx.lincheck.verifier.*
 import org.junit.*
@@ -20,7 +21,17 @@ class BlockingStackTest {
     fun add(element: Int): Unit = q.add(element)
 
     @Test
-    fun runTest() = StressOptions()
+    fun modelCheckingTest() = ModelCheckingOptions()
+        .iterations(100)
+        .invocationsPerIteration(50_000)
+        .threads(3)
+        .actorsPerThread(3)
+        .sequentialSpecification(PriorityQueueSequential::class.java)
+        .logLevel(INFO)
+        .check(this::class.java)
+
+    @Test
+    fun stressTest() = StressOptions()
         .iterations(100)
         .invocationsPerIteration(100_000)
         .actorsBefore(2)
