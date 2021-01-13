@@ -23,7 +23,7 @@ class BlockingStackTest {
     @Test
     fun modelCheckingTest() = ModelCheckingOptions()
         .iterations(100)
-        .invocationsPerIteration(50_000)
+        .invocationsPerIteration(10_000)
         .threads(3)
         .actorsPerThread(3)
         .sequentialSpecification(PriorityQueueSequential::class.java)
@@ -33,10 +33,10 @@ class BlockingStackTest {
     @Test
     fun stressTest() = StressOptions()
         .iterations(100)
-        .invocationsPerIteration(100_000)
+        .invocationsPerIteration(10_000)
         .actorsBefore(2)
         .actorsAfter(2)
-        .threads(3)
+        .threads(2)
         .actorsPerThread(3)
         .sequentialSpecification(PriorityQueueSequential::class.java)
         .logLevel(INFO)
